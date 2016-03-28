@@ -1,0 +1,24 @@
+{
+  "name": "api_express_mysql",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "2.5.8",
+    "jade": ">= 0.0.1"
+  },
+  "description": "Una Api Rest en Node.js con Express y MySQL",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omiguelperez/api_express_mysql.git"
+  },
+  "author": "Oscar Pérez <oscarperez0196@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omiguelperez/api_express_mysql/issues"
+  },
+  "homepage": "https://github.com/omiguelperez/api_express_mysql#readme"
+}
