@@ -83,6 +83,22 @@ userModel.insertUser = function(userData, callback) {
 	}
 };
 
+/*
+ * Actualizar un usuario.
+ */
+
+userModel.updateUser = function(userData, callback) {
+	if (connection) {
+		let query = 'UPDATE users SET username = ' + connection.escape(userData.username) + ', email = ' + connection.escape(userData.email) + ' WHERE id = ' + connection.escape(userData.id);
+		console.log(query);
+		connection.query(query, function(err, response) {
+			if (err) throw err;
+
+			callback(null, { updated: response.affectedRows, updateId: userData.id });
+		});
+	}
+};
+
 
 // Exportar el objeto del modelo para usarlo posteriormente
 

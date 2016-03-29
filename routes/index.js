@@ -45,6 +45,9 @@ module.exports = function(app) {
 						info: response
 					});
 				}
+
+				res.statusCode = 500;
+				res.end('Usuario no encontrado.');
 			});
 		} else {
 			res.statusCode = 500;
@@ -105,6 +108,25 @@ module.exports = function(app) {
 			}
 			res.statusCode = 500;
 			res.end('No se pudo registrar el usuario.');
+		});
+	});
+
+	/*
+	 * Actualizar los datos de un usuario.
+	 */
+	app.put('/users', function(req, res) {
+		let userData = {
+			id: req.body.id,
+			username: req.body.username,
+			email: req.body.email
+		};
+
+		UserModel.updateUser(userData, function(err, response) {
+			if (response.updated) {
+				return res.redirect('/users/' + response.updateId);
+			}
+			res.statusCode = 500;
+			res.end('No se pudo editar el usuario.');
 		});
 	});
 
