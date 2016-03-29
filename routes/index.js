@@ -17,7 +17,7 @@ module.exports = function(app) {
 			if (response.deleted) return res.redirect('/users');
 
 			res.statusCode = 500;
-			res.end('No se ha podido eliminar el usuario.');
+			res.end(response.message);
 		});
 	});
 
@@ -31,11 +31,33 @@ module.exports = function(app) {
 	});
 
 	/*
+	 * Formulario para editar un usuario.
+	 */
+
+	app.get('/user/update/:id', function(req, res) {
+		let userId = req.param('id');
+
+		if (!isNaN(userId)) {
+			UserModel.getUser(userId, function(err, response) {
+				if (typeof response != 'undefined' && response.length > 0) {
+					res.render('update', {
+						title: 'Formulario para editar un usuario',
+						info: response
+					});
+				}
+			});
+		} else {
+			res.statusCode = 500;
+			res.end('Ha ocurrido un error.');
+		}
+	});
+
+	/*
 	 * Devuelve un usuario.
 	 */
 
 	app.get('/users/:id', function(req, res) {
-		let userId = req.params.userId;
+		let userId = req.param('id');
 
 		if (!isNaN(userId)) {
 			UserModel.getUser(userId, function(err, response) {
@@ -46,6 +68,9 @@ module.exports = function(app) {
 				res.statusCode = 404;
 				res.end('Usuario no encontrado.');
 			});
+		} else {
+			res.statusCode = 500;
+			res.end('Ha ocurrido un error.');
 		}
 	});
 
@@ -79,7 +104,7 @@ module.exports = function(app) {
 				return res.redirect('/users/' + response.insertId);
 			}
 			res.statusCode = 500;
-			res.json({ saved: false });
+			res.end('No se pudo registrar el usuario.');
 		});
 	});
 

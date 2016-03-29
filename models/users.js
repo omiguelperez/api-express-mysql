@@ -20,11 +20,20 @@ let userModel = {};
  */
 userModel.deleteUser = function(id, callback) {
 	if (connection) {
-		let query = 'DELETE FROM users WHERE id = ' + connection.escape(id);
+		let query = 'SELECT * FROM users WHERE id = ' + connection.escape(id);
 		connection.query(query, function(err, response) {
 			if (err) throw err;
 
-			callback(null, { deleted: response.affectedRows });
+			if (response && response.length > 0) {
+				query = 'DELETE FROM users WHERE id = ' + connection.escape(id);
+				connection.query(query, function(err, response) {
+					if (err) throw err;
+
+					res.json({ deleted: true, message: 'El usuario ha sido eliminado.' });
+				});
+			} else {
+				res.json({ deleted: false, message: 'El usuario no se encuentra registrado.' });
+			}
 		});
 	}
 };
